@@ -17,14 +17,5 @@
         app:layout_constraintEnd_toEndOf="parent">
     </Button>
 
-    <Button
-        android:id="@+id/cashbook_test_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cashbook"
-        app:layout_constraintTop_toBottomOf="@+id/check_list_test_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

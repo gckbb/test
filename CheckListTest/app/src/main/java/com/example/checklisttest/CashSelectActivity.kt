@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.example.checklisttest.databinding.ActivityListSelectBinding
 import java.text.SimpleDateFormat
 
-class ListSelectActivity : AppCompatActivity() {
+class CashSelectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityListSelectBinding
     private var sNum = 0;
 
@@ -46,7 +46,7 @@ class ListSelectActivity : AppCompatActivity() {
             val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis())
             if(type.equals("ADD")) {
                 if(listTitle.isNotEmpty()) {
-                    val checklist = CheckListData(listTitle, currentDate)
+                    val checklist = CashListData(listTitle, currentDate)
                     val intent = Intent().apply{
                         putExtra("listTitle", listTitle)
                         putExtra("currentDate", currentDate)

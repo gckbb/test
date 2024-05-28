@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.checkListTestBtn.setOnClickListener {
-            val intent = Intent(this, CheckListActivity::class.java)
+            val intent = Intent(this, CashbookActivity::class.java)
             startActivity(intent)
         }
 

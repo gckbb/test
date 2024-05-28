@@ -1,6 +1,5 @@
 package com.example.checklisttest
 
-import android.app.Activity
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,12 +14,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class TodoAdapter(private var itemList: ArrayList<TodoListData>, private val listTitle: String) :
-    RecyclerView.Adapter<TodoAdapter.TodoListViewHolder>() {
+class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val listTitle: String) :
+    RecyclerView.Adapter<CashbookAdapter.TodoListViewHolder>() {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val myRef: DatabaseReference = database.reference.child("checklist").child(listTitle).child("todo-list")
-    val dbTool = CheckListDB()
+    val dbTool = CashbookDB()
     val listName = listTitle
 
     init {
@@ -39,7 +37,7 @@ class TodoAdapter(private var itemList: ArrayList<TodoListData>, private val lis
                     todoTitle?.let { title ->
                         todoContent?.let { content ->
                             checked?.let { istodocheck ->
-                                itemList.add(TodoListData(title, content, istodocheck))
+                                itemList.add(CashbookData(title, content, istodocheck))
                             }
                         }
                     }
@@ -59,7 +57,7 @@ class TodoAdapter(private var itemList: ArrayList<TodoListData>, private val lis
         var todocontent = itemView.findViewById<TextView>(R.id.tvContent)
         var todochecked = itemView.findViewById<CheckBox>(R.id.cbCheck)
 
-        fun onBind(data: TodoListData) {
+        fun onBind(data: CashbookData) {
             todoname.text = data.todoTitle
             todocontent.text = data.todoContent
             todochecked.isChecked = data.isChecked!!
@@ -102,7 +100,7 @@ class TodoAdapter(private var itemList: ArrayList<TodoListData>, private val lis
 
     interface ItemClickListener {
         fun onClick(view: View, position: Int, todoName: String)
-        fun onItemClick(view: View, position: Int, item: TodoListData)
+        fun onItemClick(view: View, position: Int, item: CashbookData)
     }
     private var itemClickListener: ItemClickListener? = null
 
@@ -124,13 +122,13 @@ class TodoAdapter(private var itemList: ArrayList<TodoListData>, private val lis
         holder.onBind(itemList[position])
     }
 
-    fun update(newList: ArrayList<TodoListData>) {
+    fun update(newList: ArrayList<CashbookData>) {
         itemList = newList
         notifyDataSetChanged()
     }
 
     interface ItemCheckBoxClickListener {
-        fun onClick(view: View, position: Int, itemid: TodoListData)
+        fun onClick(view: View, position: Int, itemid: CashbookData)
     }
     private lateinit var itemCheckBoxClickListener: ItemCheckBoxClickListener
 

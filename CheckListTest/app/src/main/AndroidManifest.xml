@@ -30,16 +30,16 @@
             android:name=".cashbook.CashbookActivity"
             android:exported="false" />
         <activity
-            android:name=".ListSelectActivity"
+            android:name=".CashSelectActivity"
             android:exported="false" />
         <activity
-            android:name=".EditTodoActivity"
+            android:name=".EditCashActivity"
             android:exported="false" />
         <activity
-            android:name=".CheckListActivity"
+            android:name=".CashbookActivity"
             android:exported="false" />
         <activity
-            android:name=".AfterSelectListActivity"
+            android:name=".AfterSelectCashActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

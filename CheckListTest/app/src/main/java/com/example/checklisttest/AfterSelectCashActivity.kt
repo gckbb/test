@@ -4,24 +4,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.checklisttest.databinding.ActivityAfterSelectListBinding
-import com.example.checklisttest.databinding.ActivityEditTodoBinding
-import com.example.checklisttest.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AfterSelectListActivity : AppCompatActivity() {
+class AfterSelectCashActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAfterSelectListBinding
-    private lateinit var todoadapter: TodoAdapter
-    val itemList = ArrayList<TodoListData>()
+    private lateinit var todoadapter: CashbookAdapter
+    val itemList = ArrayList<CashbookData>()
     private lateinit var todoTitle: String
-    val dbTool = CheckListDB()
+    val dbTool = CashbookDB()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +32,7 @@ class AfterSelectListActivity : AppCompatActivity() {
         binding.tvListTitle.text = listTitle
         val rv_todolist = findViewById<RecyclerView>(R.id.rvTodoList)
         //갱신
-        todoadapter = TodoAdapter(itemList, todoTitle)
+        todoadapter = CashbookAdapter(itemList, todoTitle)
         todoadapter.notifyDataSetChanged()
         //어댑터
         rv_todolist.adapter = todoadapter
@@ -43,7 +40,7 @@ class AfterSelectListActivity : AppCompatActivity() {
 
         // 추가 버튼 선택시
         binding.fabAdd.setOnClickListener {
-            val intent = Intent(this, EditTodoActivity::class.java).apply{
+            val intent = Intent(this, EditCashActivity::class.java).apply{
                 putExtra("type", "ADD")
                 putExtra("listTitle",listTitle)
             }
@@ -51,11 +48,11 @@ class AfterSelectListActivity : AppCompatActivity() {
         }
 
         //이미 생성된 리스트 선택하면 해당 투두리스트 화면으로 가야함
-        todoadapter.setItemClickListener(object: TodoAdapter.ItemClickListener{
+        todoadapter.setItemClickListener(object: CashbookAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int, titleName: String) {
-                Toast.makeText(this@AfterSelectListActivity, "$titleName", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AfterSelectCashActivity, "$titleName", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.IO).launch {
-                    val intent = Intent(this@AfterSelectListActivity, AfterSelectListActivity::class.java).apply{
+                    val intent = Intent(this@AfterSelectCashActivity, AfterSelectCashActivity::class.java).apply{
                         putExtra("titleName", titleName)
                     }
                 }
@@ -63,8 +60,8 @@ class AfterSelectListActivity : AppCompatActivity() {
             }
 
             //todolist 수정시
-            override fun onItemClick(view: View, position: Int, item: TodoListData) {
-                val intent = Intent(this@AfterSelectListActivity, EditTodoActivity::class.java).apply{
+            override fun onItemClick(view: View, position: Int, item: CashbookData) {
+                val intent = Intent(this@AfterSelectCashActivity, EditCashActivity::class.java).apply{
                     putExtra("title", item.todoTitle)
                     putExtra("content", item.todoContent)
                     putExtra("type", "EDIT")
@@ -74,8 +71,8 @@ class AfterSelectListActivity : AppCompatActivity() {
         })
 
         //체크박스 토글기능
-        todoadapter.setItemCheckBoxClickListener(object: TodoAdapter.ItemCheckBoxClickListener{
-            override fun onClick(view: View, position: Int, itemid: TodoListData) {
+        todoadapter.setItemCheckBoxClickListener(object: CashbookAdapter.ItemCheckBoxClickListener{
+            override fun onClick(view: View, position: Int, itemid: CashbookData) {
                 CoroutineScope(Dispatchers.IO).launch {
                     val currentItem = itemList[position]
                     currentItem.isChecked = !currentItem.isChecked!!

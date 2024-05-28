@@ -12,11 +12,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class CAdapter(private var itemList: ArrayList<CheckListData>): RecyclerView.Adapter<CAdapter.CheckListViewHolder>() {
+class CashListAdapter(private var itemList: ArrayList<CashListData>): RecyclerView.Adapter<CashListAdapter.CheckListViewHolder>() {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val myRef: DatabaseReference = database.reference.child("checklist")
-    val dbTool = CheckListDB()
+    val dbTool = CashbookDB()
 
     init {
         // Firebase Realtime Database에서 데이터를 가져와서 itemList에 추가
@@ -29,7 +29,7 @@ class CAdapter(private var itemList: ArrayList<CheckListData>): RecyclerView.Ada
                         itemSnapshot.child("todoTimestamp").getValue(String::class.java)
                     listName?.let { name ->
                         todoTimestamp?.let { timestamp ->
-                            itemList.add(CheckListData(name, timestamp))
+                            itemList.add(CashListData(name, timestamp))
                         }
                     }
                 }
@@ -47,7 +47,7 @@ class CAdapter(private var itemList: ArrayList<CheckListData>): RecyclerView.Ada
         var listName = itemView.findViewById<TextView>(R.id.tvTodoItem)
         var timestamp = itemView.findViewById<TextView>(R.id.tvTimeStamp)
 
-        fun onBind(data: CheckListData){
+        fun onBind(data: CashListData){
             listName.text = data.listName
             timestamp.text = data.todoTimestamp
 
@@ -73,7 +73,7 @@ class CAdapter(private var itemList: ArrayList<CheckListData>): RecyclerView.Ada
     interface ItemClickListener{
         fun onClick(view: View, position: Int, titleName:String)
 
-        fun onItemClick(view: View, position: Int, item: CheckListData)
+        fun onItemClick(view: View, position: Int, item: CashListData)
     }
 
     private var itemClickListener: ItemClickListener? = null
@@ -99,7 +99,7 @@ class CAdapter(private var itemList: ArrayList<CheckListData>): RecyclerView.Ada
         holder.onBind(itemList[position])
     }
 
-    fun update(newList: ArrayList<CheckListData>){
+    fun update(newList: ArrayList<CashListData>){
         itemList = newList
         notifyDataSetChanged()
     }

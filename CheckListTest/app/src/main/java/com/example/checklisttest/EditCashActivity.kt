@@ -3,12 +3,9 @@ package com.example.checklisttest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.checklisttest.databinding.ActivityCheckListBinding
 import com.example.checklisttest.databinding.ActivityEditTodoBinding
-import com.example.checklisttest.databinding.ActivityMainBinding
-import java.text.SimpleDateFormat
 
-class EditTodoActivity : AppCompatActivity() {
+class EditCashActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditTodoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +33,7 @@ class EditTodoActivity : AppCompatActivity() {
             //todolist 추가 시
             if(type.equals("ADD")){
                 if(title.isNotEmpty() && content.isNotEmpty()){
-                    val todo = TodoListData(title, content, false)
+                    val todo = CashbookData(title, content, false)
                     val intent = Intent().apply{
                         putExtra("title", title)
                         putExtra("content", content)

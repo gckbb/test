@@ -3,19 +3,19 @@ package com.example.checklisttest
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class CheckListDB {
+class CashbookDB {
     private val db = Firebase.database
     private val myRef = db.getReference("checklist")
 
     //체크리스트 최초 생성 시
     fun initCheckList(listName:String, currentDate:String){
-        val checklist = CheckListData(listName, currentDate)
+        val checklist = CashListData(listName, currentDate)
         myRef.child(listName).setValue(checklist)
     }
 
     //todo생성 시
     fun AddTodo(listName:String, todoTitle:String, todoContent:String, isChecked:Boolean){
-        val todolist = TodoListData(todoTitle, todoContent, isChecked)
+        val todolist = CashbookData(todoTitle, todoContent, isChecked)
         myRef.child(listName).child("todo-list").child(todoTitle).setValue(todolist)
     }
 
