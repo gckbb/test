@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "189553318527",
+    "firebase_url": "https://checklisttest-ea42a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "checklisttest-ea42a",
+    "storage_bucket": "checklisttest-ea42a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189553318527:android:58e58d51daa103c388fd4a",
+        "android_client_info": {
+          "package_name": "com.example.checklisttest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCveyZHNRbz6ikNSOMlcmLvbKVVyZ_duCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
