@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AfterSelectCashActivity : AppCompatActivity() {
+class AfterSelectCashActivity : AppCompatActivity(), CashbookAdapter.TotalCostListener{
     private lateinit var binding: ActivityAfterSelectCashBinding
     private lateinit var todoadapter: CashbookAdapter
     val itemList = ArrayList<CashbookData>()
@@ -38,7 +38,7 @@ class AfterSelectCashActivity : AppCompatActivity() {
         binding.tvListTitle.text = listTitle
         val rv_todolist = findViewById<RecyclerView>(R.id.rvTodoList)
         //갱신
-        todoadapter = CashbookAdapter(itemList, todoTitle)
+        todoadapter = CashbookAdapter(itemList, todoTitle, this)
         todoadapter.notifyDataSetChanged()
         //어댑터
         rv_todolist.adapter = todoadapter
@@ -114,6 +114,11 @@ class AfterSelectCashActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onTotalCostUpdated(totalCost: Int) {
+        // totalCost 값을 받아와서 UI 업데이트 등의 작업 수행
+        binding.totalCost.text = "Total cost: ${totalCost}"
     }
 
 }

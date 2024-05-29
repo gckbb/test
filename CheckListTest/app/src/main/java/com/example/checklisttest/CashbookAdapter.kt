@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,7 +17,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val listTitle: String) :
+class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val listTitle: String,private val totalCostListener: TotalCostListener) :
     RecyclerView.Adapter<CashbookAdapter.CashbookViewHolder>() {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -50,8 +51,9 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
                         }
                     }
                 }
+                println("Total sum: ${CalcTotalCost()}")
+                totalCostListener.onTotalCostUpdated(totalCost)
                 notifyDataSetChanged()
-                CalcTotalCost()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -69,12 +71,13 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
         var todoname = itemView.findViewById<TextView>(R.id.tvTodoItem)
         var todocontent = itemView.findViewById<TextView>(R.id.tvContent)
         var todochecked = itemView.findViewById<CheckBox>(R.id.cbCheck)
-        var cost = itemView.findViewById<TextView>(R.id.total_cost)
+        var cost = itemView.findViewById<TextView>(R.id.total_sum)
 
         fun onBind(data: CashbookData) {
             todoname.text = data.itemName
             todocontent.text = data.itemCost.toString()
             todochecked.isChecked = data.isChecked!!
+            //cost.text = CalcTotalCost().toString()
 
             if (data.isChecked!!) {
                 todoname.paintFlags =
@@ -104,13 +107,17 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
                 val position = adapterPosition
                 if(position != RecyclerView.NO_POSITION){
                     val currentItem = itemList[position]
-                    // 가져온 데이터를 사용하여 deleteList 함수를 호출합니다.
+                    // 가져온 데이터를 사용하여 deleteList 함수를 호출
                     dbTool.DeleteTodo(listName ,currentItem.itemName!!)
                 }
             }
 
         }
 
+    }
+
+    interface TotalCostListener {
+        fun onTotalCostUpdated(totalCost: Int)
     }
 
     interface ItemClickListener {
