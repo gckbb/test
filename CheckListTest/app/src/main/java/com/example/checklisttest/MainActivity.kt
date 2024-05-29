@@ -3,6 +3,7 @@ package com.example.checklisttest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.checklisttest.cashtest.ItemTestActivity
 import com.example.checklisttest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.checkListTestBtn.setOnClickListener {
             val intent = Intent(this, CashbookActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.test1.setOnClickListener {
+            val intent = Intent(this, ItemTestActivity::class.java)
             startActivity(intent)
         }
 

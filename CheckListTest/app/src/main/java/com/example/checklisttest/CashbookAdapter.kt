@@ -1,5 +1,7 @@
 package com.example.checklisttest
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.view.LayoutInflater
 import android.view.View
@@ -15,23 +17,29 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val listTitle: String) :
-    RecyclerView.Adapter<CashbookAdapter.TodoListViewHolder>() {
+    RecyclerView.Adapter<CashbookAdapter.CashbookViewHolder>() {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val myRef: DatabaseReference = database.reference.child("checklist").child(listTitle).child("todo-list")
+    private val myRef: DatabaseReference = database.reference.child("cashbook").child(listTitle).child("cashbook-list")
     val dbTool = CashbookDB()
     val listName = listTitle
+    var totalCost:Int = 0
 
     init {
         // Firebase Realtime Database에서 데이터를 가져와서 itemList에 추가
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 itemList.clear()
+                totalCost = 0
+
                 for (itemSnapshot in snapshot.children) {
                     val todoTitle =
-                        itemSnapshot.child("todoTitle").getValue(String::class.java)
+                        itemSnapshot.child("itemName").getValue(String::class.java)
                     val todoContent =
-                        itemSnapshot.child("todoContent").getValue(String::class.java)
+                        itemSnapshot.child("itemCost").getValue(Int::class.java)
+                    if (todoContent != null) {
+                        totalCost += todoContent
+                    }
                     val checked =
                         itemSnapshot.child("checked").getValue(Boolean::class.java)
                     todoTitle?.let { title ->
@@ -43,6 +51,7 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
                     }
                 }
                 notifyDataSetChanged()
+                CalcTotalCost()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -50,16 +59,21 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
             }
         })
     }
+    fun CalcTotalCost(): Int {
+        return totalCost
+    }
 
-    inner class TodoListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    inner class CashbookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var todoname = itemView.findViewById<TextView>(R.id.tvTodoItem)
         var todocontent = itemView.findViewById<TextView>(R.id.tvContent)
         var todochecked = itemView.findViewById<CheckBox>(R.id.cbCheck)
+        var cost = itemView.findViewById<TextView>(R.id.total_cost)
 
         fun onBind(data: CashbookData) {
-            todoname.text = data.todoTitle
-            todocontent.text = data.todoContent
+            todoname.text = data.itemName
+            todocontent.text = data.itemCost.toString()
             todochecked.isChecked = data.isChecked!!
 
             if (data.isChecked!!) {
@@ -91,11 +105,12 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
                 if(position != RecyclerView.NO_POSITION){
                     val currentItem = itemList[position]
                     // 가져온 데이터를 사용하여 deleteList 함수를 호출합니다.
-                    dbTool.DeleteTodo(listName ,currentItem.todoTitle!!)
+                    dbTool.DeleteTodo(listName ,currentItem.itemName!!)
                 }
             }
 
         }
+
     }
 
     interface ItemClickListener {
@@ -108,17 +123,17 @@ class CashbookAdapter(private var itemList: ArrayList<CashbookData>, private val
         this.itemClickListener = itemClickListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbookViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_todo_list, parent, false)
-        return TodoListViewHolder(view)
+        return CashbookViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return itemList.count()
     }
 
-    override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CashbookViewHolder, position: Int) {
         holder.onBind(itemList[position])
     }
 

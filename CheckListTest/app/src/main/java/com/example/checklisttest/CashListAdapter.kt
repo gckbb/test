@@ -12,12 +12,13 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class CashListAdapter(private var itemList: ArrayList<CashListData>): RecyclerView.Adapter<CashListAdapter.CheckListViewHolder>() {
+class CashListAdapter(private var itemList: ArrayList<CashListData>): RecyclerView.Adapter<CashListAdapter.CashListViewHolder>() {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val myRef: DatabaseReference = database.reference.child("checklist")
+    private val myRef: DatabaseReference = database.reference.child("cashbook")
     val dbTool = CashbookDB()
 
+    //가계부 목록 화면 adapter임
     init {
         // Firebase Realtime Database에서 데이터를 가져와서 itemList에 추가
         myRef.addValueEventListener(object : ValueEventListener {
@@ -42,7 +43,7 @@ class CashListAdapter(private var itemList: ArrayList<CashListData>): RecyclerVi
         })
     }
 
-    inner class CheckListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class CashListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         var listName = itemView.findViewById<TextView>(R.id.tvTodoItem)
         var timestamp = itemView.findViewById<TextView>(R.id.tvTimeStamp)
@@ -63,7 +64,7 @@ class CashListAdapter(private var itemList: ArrayList<CashListData>): RecyclerVi
                 val position = adapterPosition
                 if(position != RecyclerView.NO_POSITION){
                     val currentItem = itemList[position]
-                    // 가져온 데이터를 사용하여 deleteList 함수를 호출합니다.
+                    // 가져온 데이터를 사용하여 deleteList 함수를 호출
                     dbTool.DeleteList(currentItem.listName!!)
                 }
             }
@@ -86,16 +87,16 @@ class CashListAdapter(private var itemList: ArrayList<CashListData>): RecyclerVi
         this.itemClickListener = itemClickListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_check_list, parent, false)
-        return CheckListViewHolder(view)
+        return CashListViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return itemList.count()
     }
 
-    override fun onBindViewHolder(holder: CheckListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CashListViewHolder, position: Int) {
         holder.onBind(itemList[position])
     }
 

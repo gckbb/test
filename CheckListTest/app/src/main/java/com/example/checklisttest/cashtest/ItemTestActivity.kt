@@ -1,4 +1,4 @@
-package com.example.checklisttest
+package com.example.checklisttest.cashtest
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,20 +8,27 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.checklisttest.AfterSelectCashActivity
+import com.example.checklisttest.CashListAdapter
+import com.example.checklisttest.CashListData
+import com.example.checklisttest.CashSelectActivity
+import com.example.checklisttest.CashbookDB
+import com.example.checklisttest.R
 import com.example.checklisttest.databinding.ActivityCashbookBinding
+import com.example.checklisttest.databinding.ActivityItemTestBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CashbookActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCashbookBinding
+class ItemTestActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityItemTestBinding
     private lateinit var cadapter: CashListAdapter
     val itemList = ArrayList<CashListData>()
     val dbTool = CashbookDB()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCashbookBinding.inflate(layoutInflater)
+        binding = ActivityItemTestBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -36,9 +43,9 @@ class CashbookActivity : AppCompatActivity() {
         //이미 생성된 리스트 선택하면 해당 체크리스트 화면으로 가야함
         cadapter.setItemClickListener(object: CashListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int, titleName: String) {
-                Toast.makeText(this@CashbookActivity, "$titleName", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ItemTestActivity, "$titleName", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.IO).launch {
-                    val intent = Intent(this@CashbookActivity, AfterSelectCashActivity::class.java).apply{
+                    val intent = Intent(this@ItemTestActivity, CostCalcActivity::class.java).apply{
                         putExtra("titleName", titleName)
                     }
                 }
@@ -46,7 +53,7 @@ class CashbookActivity : AppCompatActivity() {
             }
 
             override fun onItemClick(view: View, position: Int, item: CashListData) {
-                val intent = Intent(this@CashbookActivity, AfterSelectCashActivity::class.java).apply{
+                val intent = Intent(this@ItemTestActivity, CostCalcActivity::class.java).apply{
                     putExtra("titleName", item.listName)
                 }
                 startActivity(intent)
@@ -61,7 +68,6 @@ class CashbookActivity : AppCompatActivity() {
             }
             requestActivity.launch(intent)
         }
-
     }
 
     //여행분류 다녀온 후
@@ -84,6 +90,4 @@ class CashbookActivity : AppCompatActivity() {
 
         }
     }
-
-
 }

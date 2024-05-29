@@ -3,14 +3,14 @@ package com.example.checklisttest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.checklisttest.databinding.ActivityEditTodoBinding
+import com.example.checklisttest.databinding.ActivityEditCashBinding
 
 class EditCashActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityEditTodoBinding
+    private lateinit var binding: ActivityEditCashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEditTodoBinding.inflate(layoutInflater)
+        binding = ActivityEditCashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -28,11 +28,11 @@ class EditCashActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             val title = binding.etTodoTitle.text.toString()
-            val content = binding.etTodoContent.text.toString()
+            val content = binding.etTodoContent.text.toString().toInt()
 
             //todolist 추가 시
             if(type.equals("ADD")){
-                if(title.isNotEmpty() && content.isNotEmpty()){
+                if(title.isNotEmpty() && content != 0){
                     val todo = CashbookData(title, content, false)
                     val intent = Intent().apply{
                         putExtra("title", title)
@@ -43,7 +43,7 @@ class EditCashActivity : AppCompatActivity() {
                     finish()
                 }
             }else if(type.equals("EDIT")){//todolist 수정 시
-                if(title.isNotEmpty() && content.isNotEmpty()){
+                if(title.isNotEmpty() && content != 0){
                     val intent = Intent().apply{
                         putExtra("title", title)
                         putExtra("content", content)

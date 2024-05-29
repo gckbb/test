@@ -5,16 +5,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.checklisttest.databinding.ActivityListSelectBinding
+import com.example.checklisttest.databinding.ActivityCashSelectBinding
 import java.text.SimpleDateFormat
 
 class CashSelectActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityListSelectBinding
+    private lateinit var binding: ActivityCashSelectBinding
     private var sNum = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListSelectBinding.inflate(layoutInflater)
+        binding = ActivityCashSelectBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 

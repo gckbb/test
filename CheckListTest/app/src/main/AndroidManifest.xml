@@ -15,6 +15,12 @@
         android:theme="@style/Theme.CheckListTest"
         tools:targetApi="31">
         <activity
+            android:name=".cashtest.CostCalcActivity"
+            android:exported="false" />
+        <activity
+            android:name=".cashtest.ItemTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".cashbook.AfterSelectCashActivity"
             android:exported="false" />
         <activity
