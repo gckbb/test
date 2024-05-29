@@ -1,6 +1,7 @@
 package com.example.checklisttest
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -48,6 +49,13 @@ class AfterSelectCashActivity : AppCompatActivity(), CashbookAdapter.TotalCostLi
         //findViewById<TextView>(R.id.total_cost).text = totalCost.toString()
         binding.totalCost.text = totalCost.toString()
 
+
+        //카카오페이 정산
+        binding.btnKakaopay.setOnClickListener{
+            val uri = Uri.parse("https://link.kakaopay.com/_/YXRLjcW")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
 
         // 추가 버튼 선택시
         binding.fabAdd.setOnClickListener {
